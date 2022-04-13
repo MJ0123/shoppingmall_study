@@ -68,7 +68,7 @@ public class MemberController {
 			session.setAttribute("member", login);
 		} else {
 			session.setAttribute("member", null);
-			rttr.addFlashAttribute("msg", false);
+			rttr.addFlashAttribute("msg", "값이 없습니다.");
 			return "redirect:/member/signin";
 		}
 		

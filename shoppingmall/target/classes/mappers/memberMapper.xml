@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mall.mappers.memberMapper">
+
+	<!-- 회원 가입 -->
+	<insert id="signup" parameterType="com.mall.domain.MemberVO">
+		insert into mall.tbl_member(userId, userPw, userName, userTell)
+			values(#{userId}, #{userPw}, #{userName}, #{userTell})
+	</insert>
+	
+	<!-- 로그인 -->
+	<select id="signin" resultType="com.mall.domain.MemberVO">
+		select
+			userId, userName, userPw, userTell, userAddr1, userAddr2, userAddr3, regiDate
+		from
+			mall.tbl_member
+		where userId = #{userId}
+	</select>
+	
+</mapper>

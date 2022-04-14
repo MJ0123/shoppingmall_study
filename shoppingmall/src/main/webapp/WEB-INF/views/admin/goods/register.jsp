@@ -33,6 +33,14 @@
  		footer#footer ul li { display:inline-block; margin-right:10px; }
 	</style>
 
+<style>
+.inputArea { margin:10px 0; }
+select { width:100px; }
+label { display:inline-block; width:70px; padding:5px; }
+label[for='gdsDes'] { display:block; }
+input { width:150px; }
+textarea#gdsDes { width:400px; height:180px; }
+</style>
 	
 </head>
 <body>
@@ -58,15 +66,41 @@
 			
 			<form role="form" method="post" autocomplete="off">
 				
+			<div class="inputArea">
 				<label>1차 분류</label>
 				<select class="category1">
 					<option value="">전체</option>
 				</select>
 				
 				<label>2차 분류</label>
-				<select class="category2">
+				<select class="category2" name="cateCode">
 					<option value="">전체</option>
 				</select>
+			</div>
+			
+			<div class="inputArea">
+				<label for="gdsName">상품명</label>
+				<input type="text" id="gdsName" name="gdsName" />
+			</div>
+			
+			<div class="inputArea">
+				<label for="gdsPrice">상품가격</label>
+				<input type="text" id="gdsPrice" name="gdsPrice" />
+			</div>
+			
+			<div class="inputArea">
+				<label for="gdsStock">상품수량</label>
+				<input type="text" id="gdsStock" name="gdsStock" />
+			</div>
+			
+			<div class="inputArea">
+				<label for="gdsDes">상품소개</label>
+				<textarea rows="5" cols="50" id="gdsDes" name="gdsDes"></textarea>
+			</div>
+			
+			<div class="inputArea">
+				<button type="submit" id="register_Btn" class="btn btn-primary">등록</button>
+			</div>
 				
 			</form>
 			
@@ -143,7 +177,7 @@ $(document).on("change", "select.category1", function(){
 		// 변수 selectVal에 현재 선택된(:selected) 1차 분류값인 $(this).val();를 저장하고,
 		// 셀렉트 박스에 '전체'라고 표시될 데이터를 추가함. 
 		 var selectVal = $(this).val();
-		 cate2Select.append("<option value=''>전체</option>");
+		 cate2Select.append("<option value='" + selectVal + "'>전체</option>");
 		 
 		 for(var i = 0; i < cate2Arr.length; i++) {
 			 if(selectVal == cate2Arr[i].cateCodeRef) {

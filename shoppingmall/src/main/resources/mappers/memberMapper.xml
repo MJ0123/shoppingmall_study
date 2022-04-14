@@ -13,7 +13,7 @@
 	<!-- 로그인 -->
 	<select id="signin" resultType="com.mall.domain.MemberVO">
 		select
-			userId, userName, userPw, userTell, userAddr1, userAddr2, userAddr3, regiDate
+			userId, userName, userPw, userTell, userAddr1, userAddr2, userAddr3, regiDate, verify
 		from
 			mall.tbl_member
 		where userId = #{userId}

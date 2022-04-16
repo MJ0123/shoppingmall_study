@@ -32,5 +32,6 @@
 	<context:component-scan base-package="com.mall.domain"	/>
 	<context:component-scan base-package="com.mall.persistence"	/>
 	<context:component-scan base-package="com.mall.service"	/>
+	<context:component-scan base-package="com.mall.utils"	/>
 	
 </beans>

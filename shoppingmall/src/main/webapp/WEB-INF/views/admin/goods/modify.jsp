@@ -40,9 +40,6 @@ label { display:inline-block; width:70px; padding:5px; }
 label[for='gdsDes'] { display:block; }
 input { width:150px; }
 textarea#gdsDes { width:400px; height:180px; }
-
-.select_img img { margin:20px 0; }
-
 </style>
 	
 </head>
@@ -67,7 +64,9 @@ textarea#gdsDes { width:400px; height:180px; }
 		<div id="container_box">
 			<h2>상품 등록</h2>
 			
-			<form role="form" method="post" autocomplete="off" enctype="multipart/form-data">
+			<form role="form" method="post" autocomplete="off">
+			
+			<input type="hidden" name="gdsNum" value="${goods.gdsNum}" />
 				
 			<div class="inputArea">
 				<label>1차 분류</label>
@@ -83,49 +82,34 @@ textarea#gdsDes { width:400px; height:180px; }
 			
 			<div class="inputArea">
 				<label for="gdsName">상품명</label>
-				<input type="text" id="gdsName" name="gdsName" />
+				<input type="text" id="gdsName" name="gdsName" value="${goods.gdsName}"/>
 			</div>
 			
 			<div class="inputArea">
 				<label for="gdsPrice">상품가격</label>
-				<input type="text" id="gdsPrice" name="gdsPrice" />
+				<input type="text" id="gdsPrice" name="gdsPrice" value="${goods.gdsPrice}"/>
 			</div>
 			
 			<div class="inputArea">
 				<label for="gdsStock">상품수량</label>
-				<input type="text" id="gdsStock" name="gdsStock" />
+				<input type="text" id="gdsStock" name="gdsStock" value="${goods.gdsStock}"/>
 			</div>
 			
 			<div class="inputArea">
 				<label for="gdsDes">상품소개</label>
-				<textarea rows="5" cols="50" id="gdsDes" name="gdsDes"></textarea>
+				<textarea rows="5" cols="50" id="gdsDes" name="gdsDes">${goods.gdsDes}</textarea>
 			</div>
 			
 			<div class="inputArea">
-				<label for="gdsImg">이미지</label>
-				<input type="file" id="gdsImg" name="file" />
-				<div class="select_img"><img src="" /></div>
+				<button type="submit" id="update_Btn" class="btn btn-primary">완료</button>
+				<button type="button" id="back_Btn" class="btn btn-warning">취소</button>
 				
 				<script>
-					$("#gdsImg").change(function(){
-						if(this.files && this.files[0]) {
-							var reader = new FileReader;
-							reader.onload = function(data) {
-								$(".select_img img").attr("src", data.target.result).width(500);
-							}
-							reader.readAsDataURL(this.files[0]);
-						}
+					$("#back_Btn").click(function(){
+						//history.back();
+						location.href = "/admin/goods/view?n=" + ${goods.gdsNum};
 					})
 				</script>
-				
-				<!-- 현재 프로젝트의 실제 경로를 표시
-				 스프링 파일이 저장되는 워크스페이스와 다르므로, 파일을 저장할 때 실제 경로를 알아야 함 -->
-				<%=request.getRealPath("/") %>
-				
-			</div>
-			
-			<div class="inputArea">
-				<button type="submit" id="register_Btn" class="btn btn-primary">등록</button>
 			</div>
 				
 			</form>
@@ -212,6 +196,21 @@ $(document).on("change", "select.category1", function(){
 		 }
 	 });
 });
+
+var select_cateCode = '${goods.cateCode}';
+var select_cateCodeRef = '${goods.cateCodeRef}';
+var select_cateName = '${goods.cateName}';
+
+if(select_cateCodeRef != null && select_cateCodeRef != '') {
+	$(".category1").val(select_cateCodeRef);
+	$(".category2").val(select_cateCode);
+	$(".category2").children().remove();
+	$(".category2").append("<option value='" + select_cateCode + "'>" + select_cateName + "</option>");
+} else {
+	$(".category1").val(select_cateCode);
+	//$(".category2").val(select_cateCode);
+	$(".category2").append("<option value='" + select_cateCode + "' selected='selected'>전체</option>");
+}
 </script>
 </body>
 </html>

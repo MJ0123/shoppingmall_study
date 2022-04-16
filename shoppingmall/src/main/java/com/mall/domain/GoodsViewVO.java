@@ -2,7 +2,7 @@ package com.mall.domain;
 
 import java.util.Date;
 
-public class GoodsVO {
+public class GoodsViewVO {
 /*
  	gdsNum		int 			not null,	
 	gdsName		varchar(50)		not null,	
@@ -22,6 +22,9 @@ public class GoodsVO {
 	private String gdsImg;
 	private Date gdsDate;
 	
+	private String cateCodeRef;
+	private String cateName;
+	
 	private String gdsThumbImg;
 	
 	public String getGdsThumbImg() {
@@ -29,6 +32,18 @@ public class GoodsVO {
 	}
 	public void setGdsThumbImg(String gdsThumbImg) {
 		this.gdsThumbImg = gdsThumbImg;
+	}
+	public String getCateCodeRef() {
+		return cateCodeRef;
+	}
+	public void setCateCodeRef(String cateCodeRef) {
+		this.cateCodeRef = cateCodeRef;
+	}
+	public String getCateName() {
+		return cateName;
+	}
+	public void setCateName(String cateName) {
+		this.cateName = cateName;
 	}
 	public int getGdsNum() {
 		return gdsNum;

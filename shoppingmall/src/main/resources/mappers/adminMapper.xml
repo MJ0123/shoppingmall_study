@@ -21,8 +21,56 @@
 	
 	<!-- 상품 등록 -->
 	<insert id="register">
-		insert into mall.tbl_goods (gdsNum, gdsName, cateCode, gdsPrice, gdsStock,gdsDes)
-			values (#{gdsNum}, #{gdsName}, #{cateCode},#{gdsPrice}, #{gdsStock}, #{gdsDes})
+		insert into mall.tbl_goods (gdsNum, gdsName, cateCode, gdsPrice, gdsStock,gdsDes, gdsImg, gdsThumbImg)
+			values (#{gdsNum}, #{gdsName}, #{cateCode},#{gdsPrice}, #{gdsStock}, #{gdsDes}, #{gdsImg}, #{gdsThumbImg})
 	</insert>
+	
+	<!-- 상품 목록 -->
+	<select id="goodslist" resultType="com.mall.domain.GoodsVO">
+		select gdsNum, gdsName, cateCode, gdsPrice, gdsStock, gdsDes, gdsImg, gdsDate
+			from mall.tbl_goods
+				order by gdsNum desc
+	</select>
+	
+	<!-- 상품 조회 -->
+	<!-- 
+		<select id="goodsView" resultType="com.mall.domain.GoodsVO">
+		select gdsNum, gdsName, cateCode, gdsPrice, gdsStock, gdsDes, gdsImg, gdsDate
+		from mall.tbl_goods
+		where gdsNum = #{gdsNum}
+	</select> 
+	-->
+	
+	<!-- 상품 조회 + 카테고리 조인 -->
+	<!-- 
+		tbl_goods 테이블은 g, goods_category 테이블은 c라는 이름으로 축약
+		on g.cateCode = c.cateCode는 g.cateCode와 c.cateCode의 값이 일치하는 것만 가져온다는 조인 조건
+	 -->
+	<select id="goodsView" resultType="com.mall.domain.GoodsViewVO">
+		select g.gdsNum, g.gdsName, g.cateCode, c.cateCodeRef, c.cateName, gdsPrice, gdsStock, gdsDes, gdsImg, gdsDate, g.gdsImg, g.gdsThumbImg
+			from mall.tbl_goods g
+				inner join mall.goods_category c
+					on g.cateCode = c.cateCode
+				where g.gdsNum = #{gdsNum}
+	</select>
+	
+	<!-- 상품 수정 -->
+	<update id="goodsModify">
+		update mall.tbl_goods
+			set
+				gdsName = #{gdsName},
+				cateCode = #{cateCode},
+				gdsPrice = #{gdsPrice},
+				gdsStock = #{gdsStock},
+				gdsDes = #{gdsDes}
+			where gdsNum = ${gdsNum}
+	</update>
+	
+	<!-- 상품 삭제 -->
+	<delete id="goodsDelete">
+		delete 
+			from mall.tbl_goods
+				where gdsNum = #{gdsNum}
+	</delete>
 
 </mapper>

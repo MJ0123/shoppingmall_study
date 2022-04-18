@@ -6,6 +6,8 @@ import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
 
+import com.mall.domain.CartListVO;
+import com.mall.domain.CartVO;
 import com.mall.domain.GoodsViewVO;
 import com.mall.domain.ReplyListVO;
 import com.mall.domain.ReplyVO;
@@ -67,5 +69,17 @@ public class ShopServiceImpl implements ShopService {
 	@Override
 	public void modifyReply(ReplyVO reply) throws Exception {
 		dao.modifyReply(reply);
+	}
+
+	// 카트 담기
+	@Override
+	public void addCart(CartVO cart) throws Exception {
+		dao.addCart(cart);
+	}
+
+	// 카트 리스트
+	@Override
+	public List<CartListVO> cartList(String userId) throws Exception {
+		return dao.cartList(userId);
 	}
 }

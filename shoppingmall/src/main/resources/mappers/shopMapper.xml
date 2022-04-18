@@ -70,4 +70,16 @@ update mall.tbl_reply
 insert into mall.tbl_cart (cartNum, userId, gdsNum, cartStock)
 	values (#{cartNum}, #{userId}, #{gdsNum}, #{cartStock})
 </insert>
+
+<!-- 카트 리스트 -->
+<select id="cartList" resultType="com.mall.domain.CartListVO">
+	select
+		row_number() over(order by c.cartNum desc) as num,
+		c.cartNum, c.userId, c.gdsNum, c.cartStock, c.addDate,
+		g.gdsName, g.gdsPrice, g.gdsThumbImg
+	from mall.tbl_cart c
+		inner join mall.tbl_goods g
+			on c.gdsNum = g.gdsNum
+		where c.userId = #{userId}
+</select>
 </mapper>

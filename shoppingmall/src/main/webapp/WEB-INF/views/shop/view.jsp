@@ -28,7 +28,7 @@
 	aside#aside { float:left; width:180px; }
 	section#container::after { content:""; display:block; clear:both; } 
 	footer#footer { background:#eee; padding:20px; }
- 
+
  /* ---------- */
  
 	header#header div#header_box { text-align:center; padding:30px 0; }
@@ -96,7 +96,9 @@
 	 div.modalContent { position:fixed; top:20%; left:calc(50% - 250px); width:500px; height:250px; padding:20px 10px; background:#fff; border:2px solid #666; }
 	 div.modalContent textarea { font-size:16px; font-family:'맑은 고딕', verdana; padding:10px; width:500px; height:200px; }
 	 div.modalContent button { font-size:20px; padding:5px 10px; margin:10px 0; background:#fff; border:1px solid #ccc; }
+	 div.modalContent button:hover { background:#eee; }
 	 div.modalContent button.modal_cancel { margin-left:20px; }
+	 
 </style>
 
 <script>
@@ -218,8 +220,39 @@
 							 
 						</p>
 						<p class="addToCart">
-							<button type="button">카트에 담기</button>
-						</p>
+							 <button type="button" class="addCart_btn">카트에 담기</button>
+							 
+							 <script>
+							  	$(".addCart_btn").click(function(){
+							   		var gdsNum = $("#gdsNum").val();
+							   		var cartStock = $(".numBox").val();
+							      
+							   		var data = {
+							     		gdsNum : gdsNum,
+							     		cartStock : cartStock
+							     		};
+							   
+							   		$.ajax({
+							    		url : "/shop/view/addCart",
+							    		type : "post",
+							    		data : data,
+							    		success : function(result){
+							    			
+							    			if(result == 1) {
+							    				alert("카트 담기 성공");
+							    				$(".numBox").val("1");
+							    			} else {
+							    				alert("회원만 사용할 수 있습니다.");
+							    				$(".numBox").val("1");
+							    			}
+							    		},
+							    		error : function(){
+							     			alert('카트 담기 실패');
+							    		}
+							   		});
+							 	 });
+							 </script>
+							</p>
 					</div>
 					
 					<div class="gdsDes">${view.gdsDes}</div>
@@ -263,6 +296,7 @@
 										   data : data,
 										   success : function(){
 										    replyList();
+										    $("#repCon").val("");
 									   		}
 									  	});
 									});
@@ -352,29 +386,25 @@
 	</footer>
 	
 	<div class="replyModal">
-		
-		<div class="modalContent">
-			
-			<div>
-				<textarea class="modal_repCon" name="modal_repCon"></textarea>
-			</div>
-			
-			<div>
-				<button type="button" class="modal_modify_btn">수정</button>
-				<button type="button" class="modal_cancle">취소</button>
-			</div>
-		</div>
-		
-		<div class="modalBackground"></div>
-	</div>
+
+ 		<div class="modalContent">
+  
+  		<div>
+   			<textarea class="modal_repCon" name="modal_repCon"></textarea>
+  		</div>
+  
+  		<div>
+   			<button type="button" class="modal_modify_btn">수정</button>
+   			<button type="button" class="modal_cancel">취소</button>
+  		</div>
+  
+ 	</div>
+
+ 	<div class="modalBackground"></div>
+ 
 </div>
 
-<script>
-$(".modal_cancel").click(function(){
- 	//$(".replyModal").attr("style", "display:none;");
- 	$(".replyModal").fadeOut(200);
-});
-</script>
+</div>
 
 <script>
 $(".modal_modify_btn").click(function(){
@@ -406,6 +436,11 @@ $(".modal_modify_btn").click(function(){
 			}
 		});
 	}
+});
+
+$(".modal_cancel").click(function(){
+ 	//$(".replyModal").attr("style", "display:none;");
+ 	$(".replyModal").fadeOut(200);
 });
 
 </script>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mall.mappers.shopMapper">
+
+<!-- 카테고리별 상품 리스트 : 1차 분류 -->
+<select id="list_1" resultType="com.mall.domain.GoodsViewVO">
+select
+	g.gdsNum, g.gdsName, g.cateCode, c.cateCodeRef, c.cateName, gdsPrice, gdsStock, gdsDes, gdsDate, g.gdsImg, g.gdsThumbImg
+	from mall.tbl_goods g
+		inner join mall.goods_category c
+			on g.cateCode = c.cateCode
+		where g.cateCode = #{cateCode}
+			or c.cateCodeRef = #{cateCodeRef}
+</select>
+
+<!-- 카테고리별 상품 리스트 : 2차 분류 -->
+<select id="list_2" resultType="com.mall.domain.GoodsViewVO">
+select
+	g.gdsNum, g.gdsName, g.cateCode, c.cateCodeRef, c.cateName, gdsPrice, gdsStock, gdsDes, gdsDate, g.gdsImg, g.gdsThumbImg
+	from mall.tbl_goods g
+		inner join mall.goods_category c
+			on g.cateCode = c.cateCode
+		where g.cateCode = #{cateCode}
+</select>
+
+<!-- 상품평(댓글) 작성 -->
+<insert id="registReply">
+	insert into mall.tbl_reply (gdsNum, userId, repNum, repCon)
+		values (#{gdsNum}, #{userId}, #{repNum}, #{repCon})
+</insert>
+
+<!-- 상품평(댓글) 리스트 -->
+<select id="replyList" resultType="com.mall.domain.ReplyListVO">
+select
+	r.gdsNum, r.userId, r.repNum, r.repCon, r.repDate, m.userName
+		from mall.tbl_reply r
+			inner join mall.tbl_member m
+				on r.userId = m.userId
+			where gdsNum = #{gdsNum};
+</select>
+
+<!-- 상품평(댓글) 삭제 -->
+<delete id="deleteReply">
+	delete from mall.tbl_reply
+		where repNum = #{repNum}
+			and userId = #{userId}
+</delete>
+
+<!-- 아이디 체크 -->
+<!-- userId만 가져오기 때문에 결과 타입을 String으로 사용함 -->
+<select id="replyUserIdCheck" resultType="String">
+	select userId
+		from mall.tbl_reply
+			where repNum = #{repNum}
+</select>
+
+<!--  상품평(댓글) 수정 -->
+<update id="modifyReply">
+update mall.tbl_reply
+	set
+		repCon = #{repCon}
+	where repNum = #{repNum}
+		and userId = #{userId}
+</update>
+</mapper>

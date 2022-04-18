@@ -9,6 +9,8 @@
 	<link rel="stylesheet" href="/resources/bootstrap/bootstrap-theme.min.css">
 	<script src="/resources/boostrap/bootstrap.min.js"></script>
 	
+	<script src="/resources/ckeditor/ckeditor.js"></script>
+	
 	<style>
  		body { font-family:'맑은 고딕', verdana; padding:0; margin:0; }
  		ul { padding:0; margin:0; list-style:none;  }
@@ -67,7 +69,7 @@ textarea#gdsDes { width:400px; height:180px; }
 		<div id="container_box">
 			<h2>상품 등록</h2>
 			
-			<form role="form" method="post" autocomplete="off" enctype="multipart/form-data">
+			<form role="form" method="post" autocomplete="off" enctype="multipart/form-data" accept-charset="UTF-8">
 				
 			<div class="inputArea">
 				<label>1차 분류</label>
@@ -99,6 +101,17 @@ textarea#gdsDes { width:400px; height:180px; }
 			<div class="inputArea">
 				<label for="gdsDes">상품소개</label>
 				<textarea rows="5" cols="50" id="gdsDes" name="gdsDes"></textarea>
+				
+				<script>
+ 					var ckeditor_config = {
+   							resize_enable : false,
+   							enterMode : CKEDITOR.ENTER_BR,
+   							shiftEnterMode : CKEDITOR.ENTER_P,
+   							filebrowserUploadUrl : "/admin/goods/ckUpload"
+ 					};
+ 
+					 CKEDITOR.replace("gdsDes", ckeditor_config);
+				</script>
 			</div>
 			
 			<div class="inputArea">
@@ -212,6 +225,21 @@ $(document).on("change", "select.category1", function(){
 		 }
 	 });
 });
+</script>
+
+<script>
+var regExp = /[^0-9]/gi;	// 정규표현식 중 하나로, 숫자만 허용하게 됨
+
+//gdsPrice와 gdsStock을 입려할 때마다 numCheck() 함수를 호출하며, 이 때 현재 선택자 $(this)를 같이보냄
+// $(this)는 현재 실행중인 선택자로서, 상품 가격에 입력할 때 $(this)는 $("#gdsPrice")를 의미하고, 상품 수량을 입력할 땐 $("#gdsStock")이 됨)
+$("#gdsPrice").keyup(function(){ numCheck($(this)); });
+$("#gdsStock").keyup(function(){ numCheck($(this)); });
+
+// 현재 선택된 선택자를 selector에 저장한 뒤, selector에 입력된 값을 정규표현식에 맞게 변경함.
+function numCheck(selector) {
+	var tempVal = selector.val();
+	selector.val(tempVal.replace(regExp, ""));
+}
 </script>
 </body>
 </html>

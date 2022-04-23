@@ -82,4 +82,40 @@ insert into mall.tbl_cart (cartNum, userId, gdsNum, cartStock)
 			on c.gdsNum = g.gdsNum
 		where c.userId = #{userId}
 </select>
+
+<!-- 카트 삭제 -->
+<delete id="deleteCart">
+	delete
+		from mall.tbl_cart
+			where cartNum = #{cartNum}
+				and userId = #{userId}
+</delete>
+
+<!-- 주문 정보 -->
+<insert id="orderInfo">
+	insert into mall.tbl_order(orderId, userId, orderRec, userAddr1, userAddr2, userAddr3, orderPhone, amount)
+		values(#{orderId}, #{userId}, #{orderRec}, #{userAddr1}, #{userAddr2}, #{userAddr3}, #{orderPhone}, #{amount})
+</insert>
+
+<!-- 주문 상세 정보 -->
+<insert id="orderInfo_Details">
+	insert into mall.tbl_order_details(orderDetailsNum, orderId, gdsNum, cartStock)
+		select #{orderDetailsNum}, #{orderId}, gdsNum, cartStock
+			from mall.tbl_cart 
+</insert>
+
+<!-- 카트 비우기 -->
+<delete id="cartAllDelete">
+	delete 
+		from mall.tbl_cart
+			where userId = #{userId}
+</delete>
+
+<!-- 특정 유저의 주문 목록 -->
+<select id="orderList" resultType="com.mall.domain.OrderVO">
+	select
+		orderId, userId, orderRec, userAddr1, userAddr2, userAddr3, orderPhone, amount, orderDate
+	from mall.tbl_order
+		where userId = #{userId}
+</select>
 </mapper>

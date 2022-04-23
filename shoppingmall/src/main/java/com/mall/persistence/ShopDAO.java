@@ -5,6 +5,8 @@ import java.util.List;
 import com.mall.domain.CartListVO;
 import com.mall.domain.CartVO;
 import com.mall.domain.GoodsViewVO;
+import com.mall.domain.OrderDetailVO;
+import com.mall.domain.OrderVO;
 import com.mall.domain.ReplyListVO;
 import com.mall.domain.ReplyVO;
 
@@ -39,4 +41,19 @@ public interface ShopDAO {
 	
 	// 카트 리스트
 	public List<CartListVO> cartList(String userId) throws Exception;
+	
+	// 카트 삭제
+	public void deleteCart(CartVO cart) throws Exception;
+	
+	// 주문 정보
+	public void orderInfo(OrderVO order) throws Exception;
+	
+	// 주문 상세 정보
+	public void orderInfo_Details(OrderDetailVO orderDetail) throws Exception;
+	
+	// 카트 비우기
+	public void cartAllDelete(String userId) throws Exception;
+	
+	// 주문 목록
+	public List<OrderVO> orderList(OrderVO order) throws Exception;
 }

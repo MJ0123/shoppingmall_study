@@ -11,16 +11,16 @@ public class CartVO {
 
  */
 	
-	private String cartNum;
+	private int cartNum;
 	private String userId;
-	private String gdsNum;
-	private String cartStock;
+	private int gdsNum;
+	private int cartStock;
 	private String addDate;
 	
-	public String getCartNum() {
+	public int getCartNum() {
 		return cartNum;
 	}
-	public void setCartNum(String cartNum) {
+	public void setCartNum(int cartNum) {
 		this.cartNum = cartNum;
 	}
 	public String getUserId() {
@@ -29,16 +29,16 @@ public class CartVO {
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
-	public String getGdsNum() {
+	public int getGdsNum() {
 		return gdsNum;
 	}
-	public void setGdsNum(String gdsNum) {
+	public void setGdsNum(int gdsNum) {
 		this.gdsNum = gdsNum;
 	}
-	public String getCartStock() {
+	public int getCartStock() {
 		return cartStock;
 	}
-	public void setCartStock(String cartStock) {
+	public void setCartStock(int cartStock) {
 		this.cartStock = cartStock;
 	}
 	public String getAddDate() {
@@ -47,5 +47,4 @@ public class CartVO {
 	public void setAddDate(String addDate) {
 		this.addDate = addDate;
 	}
-	
 }

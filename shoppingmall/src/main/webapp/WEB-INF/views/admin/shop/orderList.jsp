@@ -1,14 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <html>
 <head>
-	<title>ShoppingMall</title>
+	<title>ShoppingMall Admin</title>
 	
-	<link rel="stylesheet" href="/resources/css/user/shop/orderList.css" />
-
+	<script src="/resources/jquery/jquery-3.6.0.min.js"></script>
+	
+	<link rel="stylesheet" href="/resources/bootstrap/bootstrap.min.css">
+	<link rel="stylesheet" href="/resources/bootstrap/bootstrap-theme.min.css">
+	<script src="/resources/boostrap/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="/resources/css/admin/shop/orderList.css" />
+	
 </head>
 <body>
 <div id="root">
@@ -24,23 +29,21 @@
 		</div>
 	</nav>
 	
-	<aside id="aside">
-		<div id="aside_box">
-			<%@ include file="../include/aside.jsp" %>
-		</div>
+	<aside>
+		<%@ include file="../include/aside.jsp" %>
 	</aside>
 	
 	<section id="container">
 		<div id="container_box">
 			
 			<section id="content">
-				
+			
 				<ul class="orderList">
 					<c:forEach items="${orderList}" var="orderList">
 					<li>
 					<div>
-						<p><span>주문번호</span><a href="/shop/orderView?n=${orderList.orderId}">${orderList.orderId}</a></p>
-						<p><span>수령인</span>${orderList.orderRec}</p>
+						<p><span>주문번호</span><a href="/admin/shop/orderView?n=${orderList.orderId}">${orderList.orderId}</a></p>
+						<p><span>수령인</span>${orderList.userId}</p>
 						<p><span>주소</span>(${orderList.userAddr1}) ${orderList.userAddr2} ${orderList.userAddr3}</p>
 						<p><span>가격</span><fmt:formatNumber pattern="###,###,###" value="${orderList.amount}" /> 원</p>
 						<p><span>상태</span>${orderList.delivery}</p>
@@ -48,7 +51,6 @@
 					</li>
 					</c:forEach>
 				</ul>
-				
 			</section>
 		</div>
 	</section>
@@ -60,5 +62,6 @@
 	</footer>
 	
 </div>
+
 </body>
 </html>

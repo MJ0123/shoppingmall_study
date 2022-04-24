@@ -12,7 +12,7 @@
 	<link rel="stylesheet" href="/resources/bootstrap/bootstrap.min.css">
 	<link rel="stylesheet" href="/resources/bootstrap/bootstrap-theme.min.css">
 	<script src="/resources/boostrap/bootstrap.min.js"></script>
-	<link rel="stylesheet" href="/resources/css/admin/goods/list.css" />
+	<link rel="stylesheet" href="/resources/css/admin/shop/allReply.css" />
 	
 </head>
 <body>
@@ -29,46 +29,43 @@
 		</div>
 	</nav>
 	
+	<aside>
+		<%@ include file="../include/aside.jsp" %>
+	</aside>
+	
 	<section id="container">
-		<aside>
-			<%@ include file="../include/aside.jsp" %>
-		</aside>
 		<div id="container_box">
-			<!-- <h2>상품 목록</h2> -->
-			<table>
-				<thead>
-					<tr>
-						<th>번호</th>
-						<th>이름</th>
-						<th>카테고리</th>
-						<th>가격</th>
-						<th>수량</th>
-						<th>등록날짜</th>
-					</tr>
-				</thead>
-				<tbody>
-					<c:forEach items="${list}" var="list">
-					<tr>
-						<td>
-							<img src="${list.gdsThumbImg}">
-						</td>
-						<td>
-							<a href="/admin/goods/view?n=${list.gdsNum}">${list.gdsName}</a>
-						</td>
-						<td>
-							${list.cateName}
-						</td>
-						<td>
-							<fmt:formatNumber value="${list.gdsPrice}" pattern="###,###,###" />
-						</td>
-						<td>${list.gdsStock}</td>
-						<td>
-							<fmt:formatDate value="${list.gdsDate}" pattern="yyyy-MM-dd" />
-						</td>
-					</tr>
-					</c:forEach>
-				</tbody>
-			</table>
+			
+		<ul>
+			<c:forEach items="${reply}" var="reply">
+			<li>
+				<div class="replyInfo">
+					<p>
+						<span>작성자</span>${reply.userName} (${reply.userId})
+					</p>
+					
+					<p>
+						<span>작성된 상품</span> <a href="/shop/view?n=${reply.gdsNum}">바로가기</a>
+					</p>
+				</div>
+				
+				<div class="replyContent">
+					${reply.repCon}
+				</div>
+				
+				<div class="replyControll">
+				
+					<form role="form" method="post">
+					
+						<input type="hidden" name="repNum" value="${reply.repNum}" />
+						<button type="submit" class="delete_${reply.repNum}_btn">삭제</button>
+					
+					</form>
+				</div>
+				
+			</li>
+			</c:forEach>
+		</ul>
 		</div>
 	</section>
 	

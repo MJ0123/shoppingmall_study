@@ -1,9 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<html>
-<head>
-	<title>ShoppingMall</title>
-	
-<style>
+@charset "UTF-8";
 
 	body { margin:0; padding:0; font-family:'맑은 고딕', verdana; }
 	a { color:#05f; text-decoration:none; }
@@ -50,41 +45,14 @@
  
 	footer#footer { margin-top:100px; border-radius:50px 50px 0 0; }
 	footer#footer div#footer_box { padding:0 20px; }
+
+ 	.orderInfo { border:5px solid #eee; padding:10px 20px; margin:20px 0;}
+ 	.orderInfo span { font-size:20px; font-weight:bold; display:inline-block; width:90px; }
  
-</style>
-</head>
-<body>
-<div id="root">
-	<header id="header">
-		<div id="header_box">
-			<%@ include file="include/header.jsp" %>
-		</div>
-	</header>
-	
-	<nav id="nav">
-		<div id="nav_box">
-			<%@ include file="include/nav.jsp" %>
-		</div>
-	</nav>
-	
-	<aside id="aside">
-		<div id="aside_box">
-			<%@ include file="include/aside.jsp" %>
-		</div>
-	</aside>
-	
-	<section id="container">
-		<div id="container_box">
-			본문 영역
-		</div>
-	</section>
-	
-	<footer id="footer">
-		<div id="footer_box">
-			<%@ include file="include/footer.jsp" %>
-		</div>
-	</footer>
-	
-</div>
-</body>
-</html>
+ 	.orderView li { margin-bottom:20px; padding-bottom:20px; border-bottom:1px solid #999; }
+ 	.orderView li::after { content:""; display:block; clear:both; }
+ 
+ 	.thumb { float:left; width:200px; }
+ 	.thumb img { width:200px; height:200px; }
+ 	.gdsInfo { float:right; width:calc(100% - 220px); line-height:2; }
+ 	.gdsInfo span { font-size:20px; font-weight:bold; display:inline-block; width:100px; margin-right:10px; }

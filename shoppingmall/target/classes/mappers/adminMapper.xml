@@ -4,26 +4,26 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mall.mappers.adminMapper">
 
-	<!-- 카테고리 호출 -->
-	<select id="category" resultType="com.mall.domain.CategoryVO">
-		WITH recursive cte AS (
-			SELECT cateName, cateCode, cateCodeRef, 1 AS level
-			FROM mall.goods_category
-			WHERE cateCodeRef IS null
-			UNION all
-			SELECT p.cateName, p.cateCode, p.cateCodeRef, 1 + LEVEL AS level
-			FROM mall.goods_category p
-			INNER JOIN cte
-			ON p.cateCodeRef = cte.cateCode
-		)
-		SELECT cateName, cateCode, cateCodeRef, LEVEL FROM cte;
-	</select>
+<!-- 카테고리 호출 -->
+<select id="category" resultType="com.mall.domain.CategoryVO">
+	WITH recursive cte AS (
+	SELECT cateName, cateCode, cateCodeRef, 1 AS level
+	FROM mall.goods_category
+	WHERE cateCodeRef IS null
+	UNION all
+	SELECT p.cateName, p.cateCode, p.cateCodeRef, 1 + LEVEL AS level
+	FROM mall.goods_category p
+	INNER JOIN cte
+	ON p.cateCodeRef = cte.cateCode
+	)
+	SELECT cateName, cateCode, cateCodeRef, LEVEL FROM cte;
+</select>
 	
-	<!-- 상품 등록 -->
-	<insert id="register">
-		insert into mall.tbl_goods (gdsNum, gdsName, cateCode, gdsPrice, gdsStock,gdsDes, gdsImg, gdsThumbImg)
-			values (#{gdsNum}, #{gdsName}, #{cateCode},#{gdsPrice}, #{gdsStock}, #{gdsDes}, #{gdsImg}, #{gdsThumbImg})
-	</insert>
+<!-- 상품 등록 -->
+<insert id="register">
+	insert into mall.tbl_goods (gdsNum, gdsName, cateCode, gdsPrice, gdsStock,gdsDes, gdsImg, gdsThumbImg)
+		values (#{gdsNum}, #{gdsName}, #{cateCode},#{gdsPrice}, #{gdsStock}, #{gdsDes}, #{gdsImg}, #{gdsThumbImg})
+</insert>
 	
 	<!-- 상품 목록 -->
 	<!-- <select id="goodslist" resultType="com.mall.domain.GoodsVO">
@@ -32,12 +32,12 @@
 				order by gdsNum desc
 	</select> -->
 	
-	<!-- 상품 목록 -->
-	 <select id="goodslist" resultType="com.mall.domain.GoodsViewVO">
-		select g.gdsNum, g.gdsName, g.cateCode, c.cateCodeRef, c.cateName, gdsPrice, gdsStock, gdsDes, gdsImg, gdsDate, g.gdsImg, g.gdsThumbImg
-			from mall.tbl_goods g
-				inner join mall.goods_category c
-					on g.cateCode = c.cateCode
+<!-- 상품 목록 -->
+<select id="goodslist" resultType="com.mall.domain.GoodsViewVO">
+	select g.gdsNum, g.gdsName, g.cateCode, c.cateCodeRef, c.cateName, gdsPrice, gdsStock, gdsDes, gdsImg, gdsDate, g.gdsImg, g.gdsThumbImg
+		from mall.tbl_goods g
+			inner join mall.goods_category c
+				on g.cateCode = c.cateCode
 </select> 
 	
 	<!-- 상품 조회 -->
@@ -54,35 +54,88 @@
 		tbl_goods 테이블은 g, goods_category 테이블은 c라는 이름으로 축약
 		on g.cateCode = c.cateCode는 g.cateCode와 c.cateCode의 값이 일치하는 것만 가져온다는 조인 조건
 	 -->
-	<select id="goodsView" resultType="com.mall.domain.GoodsViewVO">
-		select g.gdsNum, g.gdsName, g.cateCode, c.cateCodeRef, c.cateName, gdsPrice, gdsStock, gdsDes, gdsImg, gdsDate, g.gdsImg, g.gdsThumbImg
-			from mall.tbl_goods g
-				inner join mall.goods_category c
-					on g.cateCode = c.cateCode
-				where g.gdsNum = #{gdsNum}
-	</select>
+<select id="goodsView" resultType="com.mall.domain.GoodsViewVO">
+	select g.gdsNum, g.gdsName, g.cateCode, c.cateCodeRef, c.cateName, gdsPrice, gdsStock, gdsDes, gdsImg, gdsDate, g.gdsImg, g.gdsThumbImg
+		from mall.tbl_goods g
+			inner join mall.goods_category c
+				on g.cateCode = c.cateCode
+					where g.gdsNum = #{gdsNum}
+</select>
 	
-	<!-- 상품 수정 -->
-	<update id="goodsModify">
-		update mall.tbl_goods
-			set
-				gdsName = #{gdsName},
-				cateCode = #{cateCode},
-				gdsPrice = #{gdsPrice},
-				gdsStock = #{gdsStock},
-				gdsDes = #{gdsDes},
-				
-				gdsImg = #{gdsImg},
-				gdsThumbImg = #{gdsThumbImg}
-				
-			where gdsNum = ${gdsNum}
-	</update>
+<!-- 상품 수정 -->
+<update id="goodsModify">
+	update mall.tbl_goods
+	set
+		gdsName = #{gdsName},
+		cateCode = #{cateCode},
+		gdsPrice = #{gdsPrice},
+		gdsStock = #{gdsStock},
+		gdsDes = #{gdsDes},
+	
+		gdsImg = #{gdsImg},
+		gdsThumbImg = #{gdsThumbImg}
+
+	where gdsNum = ${gdsNum}
+</update>
 	
 	<!-- 상품 삭제 -->
-	<delete id="goodsDelete">
-		delete 
-			from mall.tbl_goods
-				where gdsNum = #{gdsNum}
-	</delete>
+<delete id="goodsDelete">
+	delete
+		from mall.tbl_goods
+			where gdsNum = #{gdsNum}
+</delete>
+	
+	<!-- 모든 유저의 주문 목록 -->
+<select id="orderList" resultType="com.mall.domain.OrderVO">
+	select
+		orderId, userId, orderRec, userAddr1, userAddr2, userAddr3, orderPhone, amount, orderDate, delivery
+	from mall.tbl_order
+	order by orderId desc
+</select>
+	
+	<!-- 특정 주문 목록 -->
+<select id="orderView" resultType="com.mall.domain.OrderListVO">
+	select
+		o.orderId, o.userId, o.orderRec, o.userAddr1, o.userAddr2, o.userAddr3, o.orderPhone, o.amount, o.orderDate, o.delivery,
+		d.orderDetailsNum, d.gdsNum, d.cartStock,
+		g.gdsName, g.gdsThumbImg, g.gdsPrice
+	from mall.tbl_order o
+		inner join mall.tbl_order_details d
+			on o.orderId = d.orderId
+		inner join mall.tbl_goods g
+			on d.gdsNum = g.gdsNum
+		where o.orderId = #{orderId}
+</select>
+
+<!-- 배송 상태 -->
+<update id="delivery">
+	update mall.tbl_order
+		set delivery = #{delivery}
+	where orderId = #{orderId}
+</update>
+
+<!-- 상품 수량 조절 -->
+<update id="changeStock">
+	update mall.tbl_goods
+		set gdsStock = gdsStock - #{gdsStock}
+	where gdsNum = #{gdsNum}
+</update>
+
+<!-- 모든 소감(댓글) -->
+<select id="allReply" resultType="com.mall.domain.ReplyListVO">
+	select
+		r.gdsNum, r.userId, r.repNum, r.repCon, r.repDate,
+		m.userName
+	from mall.tbl_reply r
+		inner join mall.tbl_member m
+			on r.userId = m.userId
+</select>
+
+<!-- 소감(댓글) 지우기 -->
+<delete id="deleteReply">
+	delete
+		from mall.tbl_reply
+			where repNum = #{repNum}
+</delete>
 
 </mapper>

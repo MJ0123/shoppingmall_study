@@ -25,6 +25,10 @@ import org.springframework.web.multipart.MultipartFile;
 import com.mall.domain.CategoryVO;
 import com.mall.domain.GoodsVO;
 import com.mall.domain.GoodsViewVO;
+import com.mall.domain.OrderListVO;
+import com.mall.domain.OrderVO;
+import com.mall.domain.ReplyListVO;
+import com.mall.domain.ReplyVO;
 import com.mall.service.AdminService;
 import com.mall.utils.UploadFileUtils;
 
@@ -223,5 +227,63 @@ public class AdminController {
 
 		return;
 	}
+	
+	// 주문 목록
+	@RequestMapping(value = "/shop/orderList", method = RequestMethod.GET)
+	public void getOrderList(Model model) throws Exception {
+		logger.info("get order list");
+		
+		List<OrderVO> orderList = adminService.orderList();
+		
+		model.addAttribute("orderList", orderList);
+	}
+	
+	// 주문 상세 목록
+	@RequestMapping(value = "/shop/orderView", method = RequestMethod.GET)
+	public void getOrderList(@RequestParam("n") String orderId, OrderVO order, Model model) throws Exception {
+		logger.info("get order view");
+		
+		order.setOrderId(orderId);
+		List<OrderListVO> orderView = adminService.orderView(order);
+		
+		model.addAttribute("orderView", orderView);
+	}
+	
+	// 주문 상세 목록 - 상태 변경
+	@RequestMapping(value = "/shop/orderView", method = RequestMethod.POST)
+	public String delivery(OrderVO order) throws Exception {
+		logger.info("post order view");
+		
+		adminService.delivery(order);
+		
+		List<OrderListVO> orderView = adminService.orderView(order);
+		GoodsVO goods = new GoodsVO();
+		
+		for(OrderListVO i : orderView) {
+			goods.setGdsNum(i.getGdsNum());
+			goods.setGdsStock(i.getCartStock());
+			adminService.changeStock(goods);
+		}
+		return "redirect:/admin/shop/orderView?n=" + order.getOrderId();
+	}
 
+	// 모든 소감(댓글)
+	@RequestMapping(value = "/shop/allReply", method = RequestMethod.GET)
+	public void getAllReply(Model model) throws Exception {
+		logger.info("get all reply");
+		
+		List<ReplyListVO> reply = adminService.allReply();
+		
+		model.addAttribute("reply", reply);
+	}
+	
+	// 모든 소감(댓글)
+		@RequestMapping(value = "/shop/allReply", method = RequestMethod.POST)
+		public String getAllReply(ReplyVO reply) throws Exception {
+			logger.info("post all reply");
+			
+			adminService.deleteReply(reply.getRepNum());
+			
+			return "redirect:/admin/shop/allReply";
+		}
 }

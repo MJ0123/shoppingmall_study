@@ -10,6 +10,7 @@ import com.mall.domain.CartListVO;
 import com.mall.domain.CartVO;
 import com.mall.domain.GoodsViewVO;
 import com.mall.domain.OrderDetailVO;
+import com.mall.domain.OrderListVO;
 import com.mall.domain.OrderVO;
 import com.mall.domain.ReplyListVO;
 import com.mall.domain.ReplyVO;
@@ -114,4 +115,12 @@ public class ShopServiceImpl implements ShopService {
 	public List<OrderVO> orderList(OrderVO order) throws Exception {
 		return dao.orderList(order);
 	}
+
+	// 특정 주문 목록
+	@Override
+	public List<OrderListVO> orderView(OrderVO order) throws Exception {
+		return dao.orderView(order);
+	}
+	
+
 }

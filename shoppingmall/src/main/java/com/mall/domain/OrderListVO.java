@@ -2,7 +2,7 @@ package com.mall.domain;
 
 import java.util.Date;
 
-public class OrderVO {
+public class OrderListVO {
 /*
      orderId 	varchar(50) NOT NULL,
 	 userId 	varchar(50) NOT NULL,
@@ -26,6 +26,14 @@ public class OrderVO {
 	private int amount;
 	private Date orderDate;
 	
+	private int orderDetailsNum;
+	private int gdsNum;;
+	private int cartStock;
+	
+	private String gdsName;
+	private String gdsThumbImg;
+	private int gdsPrice;
+	
 	private String delivery;
 	
 	public String getDelivery() {
@@ -33,6 +41,42 @@ public class OrderVO {
 	}
 	public void setDelivery(String delivery) {
 		this.delivery = delivery;
+	}
+	public int getOrderDetailsNum() {
+		return orderDetailsNum;
+	}
+	public void setOrderDetailsNum(int orderDetailsNum) {
+		this.orderDetailsNum = orderDetailsNum;
+	}
+	public int getGdsNum() {
+		return gdsNum;
+	}
+	public void setGdsNum(int gdsNum) {
+		this.gdsNum = gdsNum;
+	}
+	public int getCartStock() {
+		return cartStock;
+	}
+	public void setCartStock(int cartStock) {
+		this.cartStock = cartStock;
+	}
+	public String getGdsName() {
+		return gdsName;
+	}
+	public void setGdsName(String gdsName) {
+		this.gdsName = gdsName;
+	}
+	public String getGdsThumbImg() {
+		return gdsThumbImg;
+	}
+	public void setGdsThumbImg(String gdsThumbImg) {
+		this.gdsThumbImg = gdsThumbImg;
+	}
+	public int getGdsPrice() {
+		return gdsPrice;
+	}
+	public void setGdsPrice(int gdsPrice) {
+		this.gdsPrice = gdsPrice;
 	}
 	public String getOrderId() {
 		return orderId;

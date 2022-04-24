@@ -10,6 +10,9 @@ import org.springframework.stereotype.Repository;
 import com.mall.domain.CategoryVO;
 import com.mall.domain.GoodsVO;
 import com.mall.domain.GoodsViewVO;
+import com.mall.domain.OrderListVO;
+import com.mall.domain.OrderVO;
+import com.mall.domain.ReplyListVO;
 
 @Repository
 public class AdminDAOImpl implements AdminDAO {
@@ -54,5 +57,40 @@ public class AdminDAOImpl implements AdminDAO {
 	@Override
 	public void goodsDelete(int gdsNum) throws Exception {
 		sql.delete(namespace + ".goodsDelete", gdsNum);
+	}
+
+	// 주문 목록
+	@Override
+	public List<OrderVO> orderList() throws Exception {
+		return sql.selectList(namespace + ".orderList");
+	}
+
+	// 특정 주문 목록
+	@Override
+	public List<OrderListVO> orderView(OrderVO order) throws Exception {
+		return sql.selectList(namespace + ".orderView", order);
+	}
+
+	// 배송 상태
+	@Override
+	public void delivery(OrderVO order) throws Exception {
+		sql.update(namespace + ".delivery", order);
+	}
+
+	// 상품 수량 조절
+	@Override
+	public void changeStock(GoodsVO goods) throws Exception {
+		sql.update(namespace + ".changeStock", goods);
+	}
+
+	// 모든 소감(댓글)
+	@Override
+	public List<ReplyListVO> allReply() throws Exception {
+		return sql.selectList(namespace + ".allReply");
+	}
+
+	@Override
+	public void deleteReply(int repNum) throws Exception {
+		sql.delete(namespace + ".deleteReply", repNum);
 	}
 }
